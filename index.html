@@ -1,68 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Niko for You</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A Niko Will Find You</title>
+
   <style>
+    :root {
+      --beige: #f4efe6;
+      --brown: #6b4f3f;
+      --soft-brown: #9c7a63;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: "Georgia", serif;
+    }
+
     body {
-      font-family: serif;
-      background-color: #f3efe6;
-      color: #4a3b2a;
+      margin: 0;
+      background: var(--beige);
+      color: var(--brown);
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      height: 100vh;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* ---------- POPUP ---------- */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      padding: 20px;
+    }
+
+    .popup {
+      background: var(--white);
+      padding: 28px 22px;
+      border-radius: 18px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .popup h1 {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+    }
+
+    .popup p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--soft-brown);
+      margin-bottom: 22px;
+    }
+
+    .popup button {
+      background: var(--brown);
+      color: white;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    /* ---------- MAIN ---------- */
+    .container {
+      background: var(--white);
+      padding: 26px 22px;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      display: none;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--soft-brown);
+      margin-bottom: 20px;
     }
 
     input {
-      padding: 10px;
-      border: 1px solid #c7b8a0;
-      background: #fffaf2;
-      margin-bottom: 12px;
-      width: 220px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      font-size: 0.95rem;
+      margin-bottom: 14px;
     }
 
-    button {
-      padding: 8px 16px;
-      background: #bfa77a;
-      border: none;
+    button.main-btn {
+      background: var(--brown);
       color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
       cursor: pointer;
+      font-size: 0.9rem;
     }
 
-    img {
-      margin-top: 20px;
-      max-width: 300px;
-      display: none;
+    .result {
+      margin-top: 22px;
+    }
+
+    .result img {
+      width: 100%;
+      max-width: 260px;
+      border-radius: 16px;
+      margin-top: 12px;
+    }
+
+    .not-found {
+      font-size: 0.85rem;
+      color: var(--soft-brown);
+      margin-top: 14px;
     }
   </style>
 </head>
+
 <body>
 
-  <h2>a niko will find you</h2>
+  <!-- POPUP -->
+  <div class="overlay" id="popup">
+    <div class="popup">
+      <h1>Happy New Year, Keiko oomfs 🎐</h1>
+      <p>
+        I personally assigned each of you a Niko picture.  
+        He’s my favorite seal, and every choice is based purely on vibes, feelings,
+        and a little bit of personal bias.
+      </p>
+      <p>
+        No logic. No explanation.  
+        Just trust the seal.
+      </p>
+      <button onclick="enterSite()">okay, let niko judge me</button>
+    </div>
+  </div>
 
-  <input type="text" id="username" placeholder="enter your username">
-  <button onclick="showNiko()">see niko</button>
+  <!-- MAIN CONTENT -->
+  <div class="container" id="main">
+    <h2>a niko will find you</h2>
+    <div class="subtitle">enter your twitter username and see who appears</div>
 
-  <img id="nikoImage" alt="niko">
+    <input type="text" id="username" placeholder="@yourusername"/>
+    <button class="main-btn" onclick="findNiko()">see niko</button>
+
+    <div class="result" id="result"></div>
+  </div>
 
   <script>
-    const nikoMap = {
-      "readerbima": "niko1.jpg",
-      "readercahyo": "niko2.jpg",
-      "readersurya": "niko3.jpg"
-    };
+    function enterSite() {
+      document.getElementById("popup").style.display = "none";
+      document.getElementById("main").style.display = "block";
+    }
 
-    function showNiko() {
-      const input = document.getElementById("username").value.toLowerCase();
-      const image = document.getElementById("nikoImage");
+    function findNiko() {
+      const input = document.getElementById("username").value.trim().toLowerCase();
+      const result = document.getElementById("result");
+
+      result.innerHTML = "";
+
+      const nikoMap = {
+        "readerbima": "niko1.jpg",
+        "readercahyo": "niko2.jpg",
+        "readersurya": "niko3.jpg"
+      };
 
       if (nikoMap[input]) {
-        image.src = nikoMap[input];
-        image.style.display = "block";
+        const img = document.createElement("img");
+        img.src = nikoMap[input];
+        img.alt = "Your Niko";
+        result.appendChild(img);
       } else {
-        image.style.display = "none";
+        const msg = document.createElement("div");
+        msg.className = "not-found";
+        msg.textContent = "no niko found… maybe he’s still napping 🦭";
+        result.appendChild(msg);
       }
     }
   </script>
