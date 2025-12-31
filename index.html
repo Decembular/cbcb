@@ -26,6 +26,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      padding: 16px;
     }
 
     /* ---------- POPUP ---------- */
@@ -50,15 +51,29 @@
     }
 
     .popup h1 {
-      font-size: 1.8rem;
-      margin-bottom: 12px;
+      font-size: 2rem;
+      margin-bottom: 6px;
+    }
+
+    .popup .subhead {
+      font-size: 1rem;
+      color: var(--soft-brown);
+      margin-bottom: 14px;
     }
 
     .popup p {
       font-size: 0.95rem;
       line-height: 1.5;
       color: var(--soft-brown);
-      margin-bottom: 22px;
+      margin-bottom: 16px;
+    }
+
+    .popup img {
+      width: 100%;
+      max-width: 220px;
+      border-radius: 16px;
+      margin: 12px auto 20px;
+      display: block;
     }
 
     .popup button {
@@ -136,14 +151,19 @@
   <!-- POPUP -->
   <div class="overlay" id="popup">
     <div class="popup">
-      <h1>Happy New Year, Keiko's oomfs! </h1>
+      <h1>Happy New Year</h1>
+      <div class="subhead">Keiko's oomfs!</div>
+
       <p>
         i personally assigned each of you a niko picture based on your vibes.  
         he’s my favorite seal, so please treat him nicely.
       </p>
-      <p>
-        p.s. he's a bit stinky
-      </p>
+
+      <p>p.s. he's a bit stinky</p>
+
+      <!-- FOTO NIKO -->
+      <img src="niko-popup.jpg" alt="Niko the seal">
+
       <button onclick="enterSite()">okay, let niko judge me</button>
     </div>
   </div>
